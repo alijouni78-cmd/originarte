@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORIGINARTE - El Alma del Arte Paraguayo</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome para Íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Variables de Color y Tipografía */
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-card: #141414;
+            --gold: #d4af37;
+            --gold-hover: #b5952f;
+            --text-light: #f5f5f5;
+            --text-muted: #a3a3a3;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Montserrat', sans-serif;
+        }
+
+        /* Reset Básico */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--font-body); background-color: var(--bg-dark); color: var(--text-light); overflow-x: hidden; scroll-behavior: smooth; }
+        a { text-decoration: none; color: inherit; }
+        h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: normal; }
+
+        /* Encabezado / Logo */
+        header { position: absolute; top: 0; width: 100%; padding: 30px 5%; display: flex; justify-content: center; z-index: 100; background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent); }
+        .logo { font-size: 2.5rem; font-family: var(--font-heading); font-weight: 700; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; }
+
+        /* Sección Hero (Presentación) */
+        .hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(rgba(10,10,10,0.7), rgba(10,10,10,1)), url('https://picsum.photos/seed/paraguayarte/1920/1080') center/cover no-repeat; padding: 0 20px; }
+        .hero-content h1 { font-size: 4.5rem; margin-bottom: 20px; color: var(--gold); letter-spacing: 5px; animation: fadeInDown 1.5s ease; text-shadow: 2px 2px 15px rgba(0,0,0,0.8); }
+        .hero-content p { font-size: 1.2rem; max-width: 800px; margin: 0 auto; line-height: 1.8; font-weight: 300; animation: fadeInUp 1.5s ease; text-shadow: 1px 1px 10px rgba(0,0,0,0.8); }
+
+        /* Separadores y Títulos de Sección */
+        .section-title { font-size: 2.5rem; margin-bottom: 30px; padding-left: 5%; color: var(--gold); border-left: 5px solid var(--gold); line-height: 1; margin-left: 5%; margin-top: 60px; }
+
+        /* Slide Horizontal estilo Netflix */
+        .netflix-section { padding-bottom: 60px; }
+        .slider-container { display: flex; overflow-x: auto; gap: 20px; padding: 20px 5% 40px; scroll-behavior: smooth; cursor: grab; }
+        .slider-container:active { cursor: grabbing; }
+        .slider-container::-webkit-scrollbar { display: none; } /* Ocultar scrollbar */
+        .slide-item { min-width: 320px; height: 480px; position: relative; border-radius: 8px; overflow: hidden; background-color: #1a1a1a; transition: transform 0.4s ease, box-shadow 0.4s ease; flex-shrink: 0; }
+        .slide-item:hover { transform: scale(1.05); z-index: 2; box-shadow: 0 15px 30px rgba(0,0,0,0.8); }
+        .slide-item img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s ease; }
+        .slide-item:hover img { opacity: 0.6; }
+        
+        .slide-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 40px 20px 20px; background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 40%, transparent 100%); display: flex; flex-direction: column; gap: 12px; transform: translateY(60px); transition: transform 0.4s ease; }
+        .slide-item:hover .slide-overlay { transform: translateY(0); }
+        .slide-overlay h3 { font-size: 1.6rem; color: #fff; }
+        .slide-overlay .artist-name { color: var(--gold); font-weight: bold; font-family: var(--font-body); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+        .bio-short { font-size: 0.9rem; line-height: 1.5; color: #ccc; opacity: 0; transition: opacity 0.4s ease; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .slide-item:hover .bio-short { opacity: 1; transition-delay: 0.1s; }
+        
+        .play-btn { margin-top: 10px; padding: 10px; background: #e50914; color: #fff; border-radius: 4px; font-weight: 600; font-size: 0.95rem; text-align: center; transition: background 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px; }
+        .play-btn:hover { background: #b20710; }
+
+        /* Sección de Tarjetas de Artistas */
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; padding: 0 5% 80px; }
+        .artist-card { background: var(--bg-card); border-radius: 12px; overflow: hidden; border: 1px solid #222; transition: all 0.3s ease; display: flex; flex-direction: column; }
+        .artist-card:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1); }
+        .card-img { height: 250px; background-size: cover; background-position: center; border-bottom: 2px solid #222; }
+        .card-content { padding: 30px 25px; display: flex; flex-direction: column; flex-grow: 1; }
+        .card-content h3 { font-size: 1.8rem; color: var(--gold); margin-bottom: 15px; }
+        .card-content p { font-size: 0.95rem; line-height: 1.6; color: var(--text-muted); flex-grow: 1; margin-bottom: 30px; }
+        .card-actions { display: flex; gap: 15px; }
+        .btn { flex: 1; text-align: center; padding: 12px; border-radius: 6px; font-weight: 500; font-size: 0.9rem; cursor: pointer; transition: all 0.3s ease; border: none; font-family: var(--font-body); }
+        .btn-contact { background: transparent; border: 1px solid var(--gold); color: var(--gold); }
+        .btn-contact:hover { background: rgba(212, 175, 55, 0.1); }
+        .btn-shop { background: #2a2a2a; color: #fff; border: 1px solid #444; }
+        .btn-shop:hover { background: #444; border-color: #666; }
+
+        /* Slide Vertical estilo TikTok */
+        .tiktok-section { padding: 60px 0 100px; background: #050505; }
+        .tiktok-title { text-align: center; font-size: 2.5rem; color: var(--gold); font-family: var(--font-heading); margin-bottom: 40px; }
+        .tiktok-container { height: 85vh; max-width: 450px; margin: 0 auto; overflow-y: scroll; scroll-snap-type: y mandatory; border-radius: 20px; border: 1px solid #333; box-shadow: 0 20px 50px rgba(0,0,0,0.9); scrollbar-width: none; background: #000; position: relative; }
+        .tiktok-container::-webkit-scrollbar { display: none; }
+        .tiktok-slide { height: 100%; width: 100%; scroll-snap-align: start; position: relative; background-size: cover; background-position: center; }
+        .tiktok-overlay { position: absolute; bottom: 0; width: 100%; padding: 60px 25px 30px; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 60%, transparent 100%); }
+        .tiktok-overlay h2 { font-size: 2rem; color: #fff; margin-bottom: 8px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
+        .tiktok-overlay p { font-size: 1.1rem; color: var(--gold); font-weight: 500; display: flex; align-items: center; gap: 8px; }
+
+        /* Footer */
+        footer { background: #080808; padding: 80px 20px 40px; text-align: center; border-top: 1px solid #1a1a1a; }
+        footer .logo-footer { font-size: 2rem; font-family: var(--font-heading); color: var(--gold); letter-spacing: 3px; margin-bottom: 10px; }
+        footer .subtitle { color: var(--text-muted); margin-bottom: 40px; font-weight: 300; font-style: italic; }
+        .credits { display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; }
+        .credits p { font-size: 1.1rem; color: #ccc; }
+        .credits strong { color: var(--gold); display: block; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; }
+
+        /* Animaciones */
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Responsividad */
+        @media(max-width: 768px) {
+            .hero-content h1 { font-size: 2.8rem; }
+            .section-title { font-size: 2rem; text-align: center; margin-left: 0; padding-left: 0; border: none; }
+            .tiktok-container { width: 90%; height: 75vh; }
+            .credits { gap: 30px; flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Encabezado -->
+    <header>
+        <div class="logo">ORIGINARTE</div>
+    </header>
+
+    <!-- Presentación del Documental -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>ORIGINARTE</h1>
+            <p>Una presentación creativa, artística y cultural que explora las almas de los mejores artistas paraguayos. Un viaje íntimo a través de sus obras, sus vidas y su legado imperecedero.</p>
+        </div>
+    </section>
+
+    <!-- Sección Netflix: Teasers de los Capítulos -->
+    <section class="netflix-section">
+        <h2 class="section-title">Capítulos del Documental</h2>
+        <div class="slider-container" id="netflixSlider">
+            
+            <!-- Capítulo 1: Lechu Farías -->
+            <div class="slide-item">
+                <!-- Se usan imágenes de placeholder. Cambiar el link por los fotogramas reales de los teasers -->
+                <img src="https://picsum.photos/seed/lechu/800/450" alt="Fotograma Lechu Farías">
+                <div class="slide-overlay">
+                    <span class="artist-name">Capítulo 1</span>
+                    <h3>Lechu Farías</h3>
+                    <p class="bio-short">Escultor autodidacta asunceno radicado en Misiones. Revitaliza la escultura popular paraguaya, tallando no solo formas, sino memorias rurales en madera y piedra.</p>
+                    <a href="#" class="play-btn"><i class="fas fa-play"></i> Ver Teaser</a>
+                </div>
+            </div>
+
+            <!-- Capítulo 2: Ofelia Fisman -->
+            <div class="slide-item">
+                <img src="https://picsum.photos/seed/ofelia/800/450" alt="Fotograma Ofelia Fisman">
+                <div class="slide-overlay">
+                    <span class="artist-name">Capítulo 2</span>
+                    <h3>Ofelia Fisman</h3>
+                    <p class="bio-short">De gran tono americanista, su obra transcurre entre la arcilla y la pintura. Creadora de las "Mamanaides", expresa los espíritus de la tierra, el agua y la mujer.</p>
+                    <a href="#" class="play-btn"><i class="fas fa-play"></i> Ver Teaser</a>
+                </div>
+            </div>
+
+            <!-- Capítulo 3: Fernando Amengual -->
+            <div class="slide-item">
+                <img src="https://picsum.photos/seed/fernando/800/450" alt="Fotograma Fernando Amengual">
+                <div class="slide-overlay">
+                    <span class="artist-name">Capítulo 3</span>
+                    <h3>Fernando Amengual</h3>
+                    <p class="bio-short">Artista visual y experto en comunicación. Ofrece una versión pictórica magistral que explora y contrasta la frontera entre la naturaleza local y el urbanismo.</p>
+                    <a href="#" class="play-btn"><i class="fas fa-play"></i> Ver Teaser</a>
+                </div>
+            </div>
+
+            <!-- Capítulo 4: Luis Cogliolo -->
+            <div class="slide-item">
+                <img src="https://picsum.photos/seed/luis/800/450" alt="Fotograma Luis Cogliolo">
+                <div class="slide-overlay">
+                    <span class="artist-name">Capítulo 4</span>
+                    <h3>Luis Cogliolo</h3>
+                    <p class="bio-short">Radicado en Areguá, su obra es una declaración de amor a la naturaleza. Evolucionó desde el dibujo técnico hasta un sello brutalista y de materia viva.</p>
+                    <a href="#" class="play-btn"><i class="fas fa-play"></i> Ver Teaser</a>
+                </div>
+            </div>
+
+            <!-- Capítulo 5: Nelson Martinesi -->
+            <div class="slide-item">
+                <img src="https://picsum.photos/seed/nelson/800/450" alt="Fotograma Nelson Martinesi">
+                <div class="slide-overlay">
+                    <span class="artist-name">Capítulo 5</span>
+                    <h3>Nelson Martinesi</h3>
+                    <p class="bio-short">Destacado dibujante y pintor. Sus cuadros y grabados forman ficciones que invitan al espectador a integrarse en un mundo de imaginación sin límites.</p>
+                    <a href="#" class="play-btn"><i class="fas fa-play"></i> Ver Teaser</a>
+                </div>
+            </div>
+
+            <!-- Capítulo 6: Marcela Dioverti -->
+            <div class="slide-item">
+                <img src="https://picsum.photos/seed/marcela/800/450" alt="Fotograma Marcela Dioverti">
+                <div class="slide-overlay">
+                    <span class="artist-name">Capítulo 6</span>
+                    <h3>Marcela Dioverti</h3>
+                    <p class="bio-short">Artista autodidacta en constante experimentación técnica (óleo, acrílico, carbonilla). Plasma en sus trazos el mundo íntimo, profundo y evolutivo de la figura femenina.</p>
+                    <a href="#" class="play-btn"><i class="fas fa-play"></i> Ver Teaser</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Sección Tarjetas de Artistas -->
+    <section class="artist-cards-section">
+        <h2 class="section-title">Nuestros Artistas</h2>
+        <div class="cards-grid">
+            
+            <!-- Tarjeta 1 -->
+            <div class="artist-card">
+                <div class="card-img" style="background-image: url('https://picsum.photos/seed/art1/600/400')"></div>
+                <div class="card-content">
+                    <h3>Lechu Farías</h3>
+                    <p>Escultor autodidacta radicado en Misiones. En su taller, forja piezas en madera y tallados en piedra que combinan el alma rústica del país con líneas contemporáneas, manteniendo viva la ancestralidad en cada trazo.</p>
+                    <div class="card-actions">
+                        <button class="btn btn-contact" onclick="alert('Función de contacto próximamente, pendiente de consulta con el artista.')">Contactar</button>
+                        <a href="#" class="btn btn-shop">Adquirir Obras</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta 2 -->
+            <div class="artist-card">
+                <div class="card-img" style="background-image: url('https://picsum.photos/seed/art2/600/400')"></div>
+                <div class="card-content">
+                    <h3>Ofelia Fisman</h3>
+                    <p>Creadora polifacética que considera el arte como un rito y una meditación espiritual. Con una fuerte influencia americanista, su universo creativo se plasma en hermosas cerámicas, esculturas y vibrantes acuarelas.</p>
+                    <div class="card-actions">
+                        <button class="btn btn-contact" onclick="alert('Función de contacto próximamente, pendiente de consulta con el artista.')">Contactar</button>
+                        <a href="#" class="btn btn-shop">Adquirir Obras</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta 3 -->
+            <div class="artist-card">
+                <div class="card-img" style="background-image: url('https://picsum.photos/seed/art3/600/400')"></div>
+                <div class="card-content">
+                    <h3>Fernando Amengual</h3>
+                    <p>Licenciado en Artes Visuales y experto en comunicación. Sus pinturas, realizadas con la técnica "in situ", captan la esencia y la luz de los paisajes paraguayos dándoles una nueva dimensión artística y poética.</p>
+                    <div class="card-actions">
+                        <button class="btn btn-contact" onclick="alert('Función de contacto próximamente, pendiente de consulta con el artista.')">Contactar</button>
+                        <a href="#" class="btn btn-shop">Adquirir Obras</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta 4 -->
+            <div class="artist-card">
+                <div class="card-img" style="background-image: url('https://picsum.photos/seed/art4/600/400')"></div>
+                <div class="card-content">
+                    <h3>Luis Cogliolo</h3>
+                    <p>De formación autodidacta y gran experimentador. Instalado en la arquetípica Areguá, su arte transmuta desde lo meticuloso del dibujo gráfico hacia esculturas ricas en brutalismo y texturas vivas del entorno natural.</p>
+                    <div class="card-actions">
+                        <button class="btn btn-contact" onclick="alert('Función de contacto próximamente, pendiente de consulta con el artista.')">Contactar</button>
+                        <a href="#" class="btn btn-shop">Adquirir Obras</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta 5 -->
+            <div class="artist-card">
+                <div class="card-img" style="background-image: url('https://picsum.photos/seed/art5/600/400')"></div>
+                <div class="card-content">
+                    <h3>Nelson Martinesi</h3>
+                    <p>Dibujante, grabador y pintor de talento consolidado. En su obra abundan lenguajes modernos y temáticas de realismo mágico que cuestionan nuestra percepción, haciendo cómplice a quien observa sus lienzos.</p>
+                    <div class="card-actions">
+                        <button class="btn btn-contact" onclick="alert('Función de contacto próximamente, pendiente de consulta con el artista.')">Contactar</button>
+                        <a href="#" class="btn btn-shop">Adquirir Obras</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta 6 -->
+            <div class="artist-card">
+                <div class="card-img" style="background-image: url('https://picsum.photos/seed/art6/600/400')"></div>
+                <div class="card-content">
+                    <h3>Marcela Dioverti</h3>
+                    <p>Pintora apasionada y creadora incansable que encuentra en la figura humana, especialmente en el mundo de la mujer, el canal perfecto para expresar su sensibilidad mediante tizas, óleos y acrílicos en evolución continua.</p>
+                    <div class="card-actions">
+                        <button class="btn btn-contact" onclick="alert('Función de contacto próximamente, pendiente de consulta con el artista.')">Contactar</button>
+                        <a href="#" class="btn btn-shop">Adquirir Obras</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Sección Galería estilo TikTok -->
+    <section class="tiktok-section">
+        <h2 class="tiktok-title">Obras en Exhibición</h2>
+        <div class="tiktok-container">
+            
+            <!-- Obra 1 -->
+            <div class="tiktok-slide" style="background-image: url('https://picsum.photos/seed/obra1/600/900')">
+                <div class="tiktok-overlay">
+                    <h2>La Chipera</h2>
+                    <p><i class="fas fa-palette"></i> Ofelia Fisman</p>
+                </div>
+            </div>
+            
+            <!-- Obra 2 -->
+            <div class="tiktok-slide" style="background-image: url('https://picsum.photos/seed/obra2/600/900')">
+                <div class="tiktok-overlay">
+                    <h2>Instantáneas del Paraguay</h2>
+                    <p><i class="fas fa-palette"></i> Fernando Amengual</p>
+                </div>
+            </div>
+
+            <!-- Obra 3 -->
+            <div class="tiktok-slide" style="background-image: url('https://picsum.photos/seed/obra3/600/900')">
+                <div class="tiktok-overlay">
+                    <h2>Foto Pintada</h2>
+                    <p><i class="fas fa-palette"></i> Luis Cogliolo</p>
+                </div>
+            </div>
+
+            <!-- Obra 4 -->
+            <div class="tiktok-slide" style="background-image: url('https://picsum.photos/seed/obra4/600/900')">
+                <div class="tiktok-overlay">
+                    <h2>Retrato (Serie Setiembre)</h2>
+                    <p><i class="fas fa-palette"></i> Nelson Martinesi</p>
+                </div>
+            </div>
+
+            <!-- Obra 5 -->
+            <div class="tiktok-slide" style="background-image: url('https://picsum.photos/seed/obra5/600/900')">
+                <div class="tiktok-overlay">
+                    <h2>Tertulias</h2>
+                    <p><i class="fas fa-palette"></i> Marcela Dioverti</p>
+                </div>
+            </div>
+
+            <!-- Obra 6 -->
+            <div class="tiktok-slide" style="background-image: url('https://picsum.photos/seed/obra6/600/900')">
+                <div class="tiktok-overlay">
+                    <h2>Memoria en Piedra</h2>
+                    <p><i class="fas fa-palette"></i> Lechu Farías</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer / Créditos -->
+    <footer>
+        <div class="logo-footer">ORIGINARTE</div>
+        <p class="subtitle">Documental sobre el Arte y la Cultura Paraguaya</p>
+        
+        <div class="credits">
+            <p><strong>Productor</strong> David Ocampos</p>
+            <p><strong>Directora</strong> Monica Ismael</p>
+        </div>
+    </footer>
+
+    <!-- Script para arrastrar (Drag-to-Scroll) en el slide de Netflix -->
+    <script>
+        const slider = document.getElementById('netflixSlider');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+        
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+        });
+        
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+        });
+        
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2; // Multiplicador de velocidad de arrastre
+            slider.scrollLeft = scrollLeft - walk;
+        });
+    </script>
+</body>
+</html>
