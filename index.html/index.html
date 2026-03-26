@@ -98,54 +98,54 @@
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
     /* Responsividad */
-        @media(max-width: 768px) {
+         @media(max-width: 768px) {
             .hero-content h1 { font-size: 2.8rem; }
             .section-title { font-size: 2rem; text-align: center; margin-left: 0; padding-left: 0; border: none; margin-top: 30px; }
             .tiktok-container { width: 90%; height: 75vh; }
             .credits { gap: 30px; flex-direction: column; }
             
-            /* --- SLIDER: CUBOS PERFECTOS (MÁS CORTO DE IZQUIERDA A DERECHA) --- */
+            /* --- FUERZA BRUTA: CUBOS PERFECTOS (MÁS CORTOS DE IZQUIERDA A DERECHA) --- */
             
             .slider-container {
-                padding: 10px 5% 30px;
-                gap: 15px; 
-                scroll-snap-type: x mandatory; 
+                padding: 10px 5% 30px !important;
+                gap: 15px !important;
             }
 
             .slide-item {
-                /* AQUÍ ESTÁ LA MAGIA DEL CUBO PERFECTO */
-                min-width: 280px; /* Corto de Izquierda a Derecha */
-                height: 280px;    /* Misma medida de Arriba a Abajo para formar el cubo */
-                scroll-snap-align: center;
+                /* ESTO FUERZA EL TAMAÑO A UN CUBO PERFECTO DE 240x240 */
+                min-width: 240px !important; /* Más corto de izquierda a derecha */
+                width: 240px !important;     
+                flex: 0 0 240px !important;  /* Evita que el contenedor lo estire hacia los lados */
+                height: 240px !important;    /* Igual medida para formar el cubo */
             }
 
             .slide-overlay {
-                transform: translateY(0); 
-                padding: 15px; 
-                background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 60%, transparent 100%);
+                transform: translateY(0) !important;
+                padding: 12px !important;
+                background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 70%, transparent 100%) !important;
             }
             
             .slide-overlay h3 {
-                font-size: 1.2rem; 
-                margin-bottom: 2px;
+                font-size: 1.1rem !important; 
+                margin-bottom: 2px !important;
             }
 
             .artist-name {
-                font-size: 0.8rem;
+                font-size: 0.75rem !important;
             }
 
-            /* Restauramos la descripción pero más corta para que entre en el cubo */
             .bio-short {
-                display: -webkit-box;
-                opacity: 1; 
-                font-size: 0.8rem; 
-                -webkit-line-clamp: 2; /* Muestra solo 2 líneas */
+                display: -webkit-box !important;
+                opacity: 1 !important; 
+                font-size: 0.75rem !important; 
+                -webkit-line-clamp: 2 !important; 
+                line-height: 1.2 !important;
             }
             
             .play-btn {
-                padding: 8px;
-                font-size: 0.85rem;
-                margin-top: 5px;
+                padding: 6px !important;
+                font-size: 0.8rem !important;
+                margin-top: 4px !important;
             }
         }
     </style>
