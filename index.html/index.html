@@ -97,55 +97,55 @@
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-     /* Responsividad */
+    /* Responsividad */
         @media(max-width: 768px) {
             .hero-content h1 { font-size: 2.8rem; }
             .section-title { font-size: 2rem; text-align: center; margin-left: 0; padding-left: 0; border: none; margin-top: 30px; }
             .tiktok-container { width: 90%; height: 75vh; }
             .credits { gap: 30px; flex-direction: column; }
             
-            /* --- SLIDER SÚPER COMPACTO Y DESLIZAMIENTO LIBRE --- */
+            /* --- SLIDER: CUBOS PERFECTOS (MÁS CORTO DE IZQUIERDA A DERECHA) --- */
             
             .slider-container {
-                padding: 10px 15px 30px 15px;
-                gap: 12px; 
-                /* Eliminamos el "imán" para que el dedo resbale libremente hasta el final */
-                scroll-snap-type: none; 
-                -webkit-overflow-scrolling: touch; /* Deslizamiento fluido en móviles */
+                padding: 10px 5% 30px;
+                gap: 15px; 
+                scroll-snap-type: x mandatory; 
             }
 
             .slide-item {
-                /* Tamaño miniatura real (estilo app de Netflix) */
-                min-width: 140px; 
-                height: 220px; 
-                scroll-snap-align: none;
+                /* AQUÍ ESTÁ LA MAGIA DEL CUBO PERFECTO */
+                min-width: 280px; /* Corto de Izquierda a Derecha */
+                height: 280px;    /* Misma medida de Arriba a Abajo para formar el cubo */
+                scroll-snap-align: center;
             }
 
             .slide-overlay {
                 transform: translateY(0); 
-                padding: 10px; 
-                gap: 5px; /* Reducimos el espacio entre textos */
-                background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 80%, transparent 100%);
+                padding: 15px; 
+                background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 60%, transparent 100%);
             }
             
-            .artist-name {
-                font-size: 0.65rem;
-            }
-
             .slide-overlay h3 {
-                font-size: 1rem; 
-                line-height: 1.1;
+                font-size: 1.2rem; 
+                margin-bottom: 2px;
             }
 
-            /* OCULTAMOS el párrafo en celulares para que la imagen pueda ser miniatura */
+            .artist-name {
+                font-size: 0.8rem;
+            }
+
+            /* Restauramos la descripción pero más corta para que entre en el cubo */
             .bio-short {
-                display: none; 
+                display: -webkit-box;
+                opacity: 1; 
+                font-size: 0.8rem; 
+                -webkit-line-clamp: 2; /* Muestra solo 2 líneas */
             }
             
             .play-btn {
-                padding: 6px;
-                font-size: 0.75rem;
-                margin-top: 2px;
+                padding: 8px;
+                font-size: 0.85rem;
+                margin-top: 5px;
             }
         }
     </style>
