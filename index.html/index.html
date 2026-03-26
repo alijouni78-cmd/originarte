@@ -97,12 +97,53 @@
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Responsividad */
+       /* Responsividad */
         @media(max-width: 768px) {
+            /* Lo que ya tenías configurado */
             .hero-content h1 { font-size: 2.8rem; }
-            .section-title { font-size: 2rem; text-align: center; margin-left: 0; padding-left: 0; border: none; }
+            .section-title { font-size: 2rem; text-align: center; margin-left: 0; padding-left: 0; border: none; margin-top: 30px; }
             .tiktok-container { width: 90%; height: 75vh; }
             .credits { gap: 30px; flex-direction: column; }
+            
+            /* --- INICIO DE LOS 4 PUNTOS PARA EL CARRUSEL EN CELULARES --- */
+            
+            /* Puntos 1 y 3: Mejorar el contenedor y agregar efecto imán */
+            .slider-container {
+                scroll-snap-type: x mandatory;
+                gap: 15px; 
+                padding: 10px 5% 30px;
+            }
+
+            /* Punto 2: Reducir la tarjeta al 75% del ancho de la pantalla para que asome la siguiente */
+            .slide-item {
+                min-width: 75vw; /* 75% del ancho de la pantalla (Viewport Width) */
+                height: 400px; /* Altura un poco más pequeña */
+                scroll-snap-align: center; /* Efecto imán: centra la tarjeta al soltar el dedo */
+            }
+
+            /* Punto 4: Ajustar textos y botones */
+            /* IMPORTANTE: En celulares no existe el "pasar el mouse por encima" (hover), 
+               así que hacemos que el texto y el degradado oscuro siempre estén visibles */
+            .slide-overlay {
+                transform: translateY(0); 
+                padding: 20px 15px 15px; 
+            }
+            
+            .slide-overlay h3 {
+                font-size: 1.4rem; 
+            }
+
+            .bio-short {
+                opacity: 1; /* Hace el texto visible permanentemente en móvil */
+                font-size: 0.85rem; 
+                -webkit-line-clamp: 4; /* Permite una línea más de texto si es necesario */
+            }
+            
+            .play-btn {
+                padding: 8px;
+                font-size: 0.9rem;
+            }
+            /* --- FIN DE LOS 4 PUNTOS --- */
         }
     </style>
 </head>
