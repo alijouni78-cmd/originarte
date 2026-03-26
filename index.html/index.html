@@ -97,53 +97,56 @@
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-       /* Responsividad */
+      /* Responsividad */
         @media(max-width: 768px) {
-            /* Lo que ya tenías configurado */
             .hero-content h1 { font-size: 2.8rem; }
             .section-title { font-size: 2rem; text-align: center; margin-left: 0; padding-left: 0; border: none; margin-top: 30px; }
             .tiktok-container { width: 90%; height: 75vh; }
             .credits { gap: 30px; flex-direction: column; }
             
-            /* --- INICIO DE LOS 4 PUNTOS PARA EL CARRUSEL EN CELULARES --- */
+            /* --- AJUSTES OPTIMIZADOS PARA EL CARRUSEL EN CELULARES --- */
             
-            /* Puntos 1 y 3: Mejorar el contenedor y agregar efecto imán */
             .slider-container {
-                scroll-snap-type: x mandatory;
+                padding: 10px 20px 30px 20px;
                 gap: 15px; 
-                padding: 10px 5% 30px;
+                scroll-snap-type: x mandatory;
+                scroll-padding-left: 20px; /* Crea un tope a la izquierda para el imán */
             }
 
-            /* Punto 2: Reducir la tarjeta al 75% del ancho de la pantalla para que asome la siguiente */
             .slide-item {
-                min-width: 75vw; /* 75% del ancho de la pantalla (Viewport Width) */
-                height: 400px; /* Altura un poco más pequeña */
-                scroll-snap-align: center; /* Efecto imán: centra la tarjeta al soltar el dedo */
+                min-width: 240px; /* Tarjeta mucho más angosta, requiere menos recorrido del dedo */
+                height: 360px; /* Altura reducida para mantener la proporción */
+                scroll-snap-align: start; /* El imán ahora atrapa la tarjeta apenas la asomas */
             }
 
-            /* Punto 4: Ajustar textos y botones */
-            /* IMPORTANTE: En celulares no existe el "pasar el mouse por encima" (hover), 
-               así que hacemos que el texto y el degradado oscuro siempre estén visibles */
+            /* Ajustes para que el texto encaje perfecto en la tarjeta más pequeña */
             .slide-overlay {
                 transform: translateY(0); 
-                padding: 20px 15px 15px; 
+                padding: 15px; 
+                background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 55%, transparent 100%);
             }
             
             .slide-overlay h3 {
-                font-size: 1.4rem; 
+                font-size: 1.2rem; 
+                margin-bottom: 2px;
+            }
+
+            .artist-name {
+                font-size: 0.8rem;
             }
 
             .bio-short {
-                opacity: 1; /* Hace el texto visible permanentemente en móvil */
-                font-size: 0.85rem; 
-                -webkit-line-clamp: 4; /* Permite una línea más de texto si es necesario */
+                opacity: 1; 
+                font-size: 0.8rem; 
+                line-height: 1.3;
+                -webkit-line-clamp: 3; /* Muestra solo 3 líneas para no saturar el espacio */
             }
             
             .play-btn {
                 padding: 8px;
-                font-size: 0.9rem;
+                font-size: 0.85rem;
+                margin-top: 8px;
             }
-            /* --- FIN DE LOS 4 PUNTOS --- */
         }
     </style>
 </head>
